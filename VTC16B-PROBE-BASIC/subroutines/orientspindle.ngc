@@ -49,23 +49,13 @@ o120 endif
 ;(debug, Tool confirmed clamped, proceeding with spindle orientation)
 M19 R0 ; Orient spindle to 0 degrees
 
-; First check if spindle is oriented
-M66 P6 L0 ; Check spindle orientation sensor (immediate read, no waiting)
+; Wait for orientation to complete
+M66 P6 L3 Q3 ; Wait up to 3 seconds for spindle orientation
 o130 if [#5399 EQ 0]
-    (msg, ERROR: Spindle must be oriented before releasing tool)
-    (debug, SAFETY ERROR: Spindle not oriented. Tool release aborted.)
-    o<m24> return [-1]
+    (msg, ERROR: Spindle orientation failed)
+    (debug, Spindle orientation timeout)
+    o<orientspindle> return [0]
 o130 endif
-
-; Double check - make extra sure spindle is oriented
-;(debug, Spindle orientation detected, confirming stability...)
-G4 P0.2 ; Small dwell to ensure signal is stable
-M66 P6 L0 ; Check again
-o131 if [#5399 EQ 0]
-    (msg, ERROR: Unstable spindle orientation detected)
-    (debug, SAFETY ERROR: Unstable orientation. Tool release aborted.)
-    o<m24> return [-1]
-o131 endif
 
 ;(debug, Spindle orientation complete)
 o<orientspindle> endsub [1]
