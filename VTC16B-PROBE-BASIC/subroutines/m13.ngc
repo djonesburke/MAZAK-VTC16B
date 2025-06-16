@@ -6,7 +6,7 @@ o<m13> sub
 ; #<number_of_pockets>: The number of pockets in the ATC is automaticity pulled from the INI via #<_ini[atc]pockets>
 (PRINT, o<m13>)
 
-;(DEBUG, EVAL[vcp.getWidget{"dynatc"}.atc_message{"REFERENCING"}])
+(DEBUG, EVAL[vcp.getWidget{"dynatc"}.atc_message{"REFERENCING"}])
 
 M65 P6 ; Brake off
 G4  P.05 ;dwell
@@ -26,7 +26,7 @@ M65 P6 ;brake off
 M65 P4 ; Stop motor
 #3989 = 1
 
-;(DEBUG, EVAL[vcp.getWidget{"dynatc"}.atc_message{}])
+(DEBUG, EVAL[vcp.getWidget{"dynatc"}.atc_message{}])
 
 #<number_of_pockets> = 24
 o110 if [EXISTS[#<_ini[atc]pockets>]]
@@ -38,7 +38,7 @@ o110 endif
 o120 while [#1 LT #<number_of_pockets>]
     #1 = [#1+1]
     #2 = #[4000+#1]
-    ;(DEBUG, EVAL[vcp.getWidget{"dynatc"}.store_tool{#1, #2}])
+    (DEBUG, EVAL[vcp.getWidget{"dynatc"}.store_tool{#1, #2}])
 o120 endwhile
 
 M61 Q#3991 G43 H#3991
