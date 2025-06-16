@@ -26,7 +26,7 @@ o120 else
 o120 endif
 
 (tells the atc widget how many steps to move and start moving forward)
-;(DEBUG, EVAL[vcp.getWidget{"dynatc"}.rotate{#<steps_to_move>, "cw"}])
+(DEBUG, EVAL[vcp.getWidget{"dynatc"}.rotate{#<steps_to_move>, "cw"}])
 
 M65 P6 ; Brake off
 G4  P.05 ;dwell
