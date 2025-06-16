@@ -150,7 +150,7 @@ o220 if [#<tool_in_spindle> GT 0] ; checks if there is a valid tool in the spind
     (debug, Storing tool #<tool_in_spindle> in pocket #<open_pocket>)
     M21 ; puts the tool in spindle away into the open pocket
     
-    (DEBUG, EVAL[vcp.getWidget{"dynatc"}.store_tool{#<open_pocket>, #<tool_in_spindle>}])
+    ; (DEBUG, EVAL[vcp.getWidget{"dynatc"}.store_tool{#<open_pocket>, #<tool_in_spindle>}])
     #140 = #<open_pocket>
     #[4000 + #140] = #<tool_in_spindle> ; save tool number in pocket
     
@@ -168,7 +168,7 @@ o230 if [#<selected_tool> GT 0] ; selected tool is greater than tool0
     G0 G53 X#<atc_x_tool_clearance_pos> Y#<atc_y_tool_clearance_pos>
     
     ; Position carousel to tool pocket - ABSOLUTE positioning
-     (debug, Moving carousel to pocket #<next_pocket> for tool retrieval)
+    ; (debug, Moving carousel to pocket #<next_pocket> for tool retrieval)
     M10 P#<next_pocket> ; set carousel to move to the right pocket ABSOLUTE
     ; #3990 = #<next_pocket> ; Update tracking BEFORE M22 call
     (debug, Updated carousel position to #3990)
@@ -177,7 +177,7 @@ o230 if [#<selected_tool> GT 0] ; selected tool is greater than tool0
     (debug, Loading tool #<selected_tool> from pocket #<next_pocket>)
     M22 ; Move carousel out and pick up tool
     
-    (DEBUG, EVAL[vcp.getWidget{"dynatc"}.store_tool{#<next_pocket>, 0}])
+    ; (debug, EVAL[vcp.getWidget{"dynatc"}.store_tool{#<next_pocket>, 0}])
     #150 = #<next_pocket>
     
     ; Double-check position tracking after retrieval
