@@ -11,7 +11,7 @@ o<m13> sub
 M65 P6 ; Brake off
 G4  P.05 ;dwell
 M64 P4 ; Move Motor FWD
-G4 P.3 ;dwell
+G4 P5 ;dwell
 M66 P3 L3 Q30 ; wait for index sensor to go high
 o100 if [#5399 LT 0]
     M65 P4 ; stop motor

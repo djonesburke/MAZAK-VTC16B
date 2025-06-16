@@ -1,7 +1,7 @@
 o<unclamptool> sub
 
-; First check if spindle is oriented
-M66 P6 L0 ; Check spindle orientation sensor (immediate read, no waiting)
+; Check if spindle is oriented — wait up to 3 seconds
+M66 P6 L3 Q.5
 o110 if [#5399 EQ 0]
     (msg, ERROR: Spindle must be oriented before releasing tool)
     (debug, SAFETY ERROR: Spindle not oriented. Tool release aborted.)
@@ -11,7 +11,7 @@ o110 endif
 ; Double check - make extra sure spindle is oriented
 ;(debug, Spindle orientation detected, confirming stability...)
 G4 P0.2 ; Small dwell to ensure signal is stable
-M66 P6 L0 ; Check again
+M66 P6 L3 Q.5 ; Check again
 o115 if [#5399 EQ 0]
     (msg, ERROR: Unstable spindle orientation detected)
     (debug, SAFETY ERROR: Unstable orientation. Tool release aborted.)
@@ -32,6 +32,8 @@ o120 if [#5399 LT 0]
     M64 P2 ; restore clamp solenoid (safety)
     o<unclamptool> return [-1]
 o120 endif
+
+G4 P0.2
 
 ;(debug, Tool successfully unclamped)
 o<unclamptool> endsub [1]
