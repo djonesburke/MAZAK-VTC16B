@@ -143,6 +143,9 @@ o220 if [#<tool_in_spindle> GT 0] ; checks if there is a valid tool in the spind
     ; Use M21 to store tool
     (debug, Storing tool #<tool_in_spindle> in pocket #<open_pocket>)
     M21 ; puts the tool in spindle away into the open pocket
+    M68 E0 Q#3990 ; Sync HAL component with current pocket
+    G4 P0.1 ; Small dwell to ensure signal propagation
+    (debug, After M21: Syncing HAL carousel position to #3990)
     
     ; Update tool tracking data
     (DEBUG, EVAL[vcp.getWidget{"dynatc"}.store_tool{#<open_pocket>, #<tool_in_spindle>}])
@@ -171,6 +174,9 @@ o230 if [#<selected_tool> GT 0] ; selected tool is greater than tool0
     ; Use M22 to retrieve tool
     (debug, Loading tool #<selected_tool> from pocket #<next_pocket>)
     M22 ; Move carousel out and pick up tool
+    M68 E0 Q#3990 ; Sync HAL component with current pocket  
+    G4 P0.1 ; Small dwell to ensure signal propagation
+    (debug, After M22: Syncing HAL carousel position to #3990)
     
     ; Update tool tracking data
     (DEBUG, EVAL[vcp.getWidget{"dynatc"}.store_tool{#<next_pocket>, 0}])

@@ -60,6 +60,8 @@ o130 if [#5399 EQ 0]
     (abort, Failed to retract carousel - cannot continue safely)
 o130 endif
 
+(debug, CAROUSEL TRACKING - After operation, position: #3990)
+
 (PRINT, o<m22> endsub)
 o<m22> endsub [1]
 

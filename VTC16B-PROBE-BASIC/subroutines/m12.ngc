@@ -42,7 +42,11 @@ o130 do
         (abort, Failed to get rotation index)
     o131 endif
     G4 P0.05
-    #3990 = [[[#3990+2] MOD #<number_of_pockets>]-1] ; Pocket is no.1-#<number_of_pockets>
+    #3990 = [#3990 - 1]
+    o135 if [#3990 LT 1]
+        #3990 = #<number_of_pockets> ; Wrap around to last pocket
+    o135 endif
+    M68 E0 Q#3990 ; Sync HAL component immediately after updating #3990
     #<steps_to_move> = [#<steps_to_move>-1]
 o130 while [#<steps_to_move> GT 0]
 
@@ -52,6 +56,8 @@ M65 P6 ;brake off
 M65 P3 ; Stop motor
 
 #<_my_current_pocket> = #3990
+
+(debug, CAROUSEL TRACKING - Current Position: #3990)
 
 (PRINT, o<m12> endsub)
 o<m12> endsub [1]

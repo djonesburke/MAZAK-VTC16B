@@ -78,6 +78,8 @@ G0 G53 Z#<atc_z_tool_clearance_height>
 
 #3991 = 0; save fact there is now no tool in the spindle
 
+(debug, CAROUSEL TRACKING - After operation, position: #3990)
+
 (PRINT, o<m21> - Tool unloading complete)
 o<m21> endsub [1]
 

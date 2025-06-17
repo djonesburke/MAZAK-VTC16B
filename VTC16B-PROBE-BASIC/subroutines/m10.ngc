@@ -33,6 +33,10 @@ o140 elseif [#<steps> LT 0]
     M11 P[#<steps>]
 o140 endif
 
+M68 E0 Q#3990 ; Sync HAL component with current pocket
+
+(debug, CAROUSEL TRACKING - Current Position: #3990)
+
 (PRINT, o<m10> endsub)
 o<m10> endsub [1]
 
