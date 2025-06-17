@@ -189,26 +189,26 @@ o230 else
     (debug, Special handling for T0)
     G0 G53 Z#<atc_z_tool_clearance_height>
     
-    ; Home the carousel for T0
-    (debug, Moving carousel to home position)
+    ; No need to home the carousel for T0 - keep its current position
+    (debug, Keeping carousel at current position for T0)
     
     (debug, Retracting ATC carousel)
 o<retractatc> call
-o231 if [#5399 EQ 0]  ; FIXED: Changed from o130 to o231
+o231 if [#5399 EQ 0]
     (debug, WARNING: ATC retraction failed)
     (abort, Failed to retract carousel - cannot continue safely)
 o231 endif
 
 (debug, Clamping tool)
 o<clamptool> call
-o232 if [#5399 LT 0]  ; FIXED: Changed from o120 to o232
+o232 if [#5399 LT 0]
     (debug, WARNING: Tool clamp failed)
     (abort, Failed to clamp tool - cannot continue safely)
 o232 endif
     
-    ; For T0, set carousel position to home/1
-    #3990 = 1 ; For T0, we typically return to the home position
-    (debug, Reset carousel position to 1 for T0)
+    ; For T0, do NOT reset carousel position - preserve current position
+    ; #3990 = 1 ; REMOVED - don't reset position for T0
+    (debug, Maintaining carousel at pocket #3990 for T0)
 o230 endif
 
 M61 Q#<selected_tool>
@@ -216,6 +216,9 @@ M61 Q#<selected_tool>
 o240 if [1 EQ 1]
     G43 H#<selected_tool>
 o240 endif
+
+; Ensure HAL carousel component is synced with #3990
+M68 E0 Q#3990 ; Set the analog output connected to the carousel component
 
 o<program_coolant> call
 

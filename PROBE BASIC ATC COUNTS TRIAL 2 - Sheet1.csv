@@ -1,0 +1,7 @@
+,,,,
+OPERATION,CORRECT POCKET,GUI POCKET,PHYSICAL POCKET,S32 POCKET
+M6 T0 G43 to M6 T1 G43,1,1,1,1
+M6 T1 G43 to M6 T3 G43 (store tool in carousel),3,3,3,3
+M6 T3 G43 to M6 T2 G43,2,2,2,4
+M6 T3 G43 to M6 T0 G43 (store tool in carousel),3,3,3,3
+M6 T0 G43 to M6 T2 G43,2,2,2,4
