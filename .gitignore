@@ -1,0 +1,29 @@
+# LinuxCNC runtime & logs
+*.log
+*.halcheck
+*.pyc
+__pycache__/
+
+# HAL/VAR backup state
+*.bak
+*.var
+*.ngc
+
+# IDE/user state files
+*.swp
+*.swo
+*.pickle
+.vscode/
+.idea/
+*.autosave
+
+# Qt Designer artifacts
+*.qrc~
+*~
+
+# Probe Basic specific
+False
+halshow.preferences
+
+# Ignore core dumps
+core
