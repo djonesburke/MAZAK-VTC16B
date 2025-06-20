@@ -1,0 +1,9 @@
+o<store_tool_in_carousel> sub
+(DEBUG, Running store tool in carousel subroutine)
+G49
+T0 M6
+(DEBUG, Tool storage complete)
+o<store_tool_in_carousel> endsub
+
+M2
+

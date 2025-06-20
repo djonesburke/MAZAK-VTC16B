@@ -7,7 +7,6 @@ __pycache__/
 # HAL/VAR backup state
 *.bak
 *.var
-*.ngc
 
 # IDE/user state files
 *.swp
