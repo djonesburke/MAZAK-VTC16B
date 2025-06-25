@@ -117,14 +117,14 @@ G0 G53 X#<atc_x_tool_clearance_pos> Y#<atc_y_tool_clearance_pos>
 
 ; Centralized spindle orientation for entire tool change process
 ; This avoids redundant orientation calls in M21 and M22
-(debug, Orienting spindle for tool change operations)
+;(debug, Orienting spindle for tool change operations)
 M5 ; Ensure spindle is stopped
 G4 P1.0 ; Dwell for spindle to stop completely
-o<orientspindle> call
-o215 if [#5399 EQ 0]
-    (debug, WARNING: Spindle orientation failed)
-    (abort, Failed to orient spindle - cannot proceed with tool change)
-o215 endif
+;o<orientspindle> call
+;o215 if [#5399 EQ 0]
+;    (debug, WARNING: Spindle orientation failed)
+;    (abort, Failed to orient spindle - cannot proceed with tool change)
+;o215 endif
 
 ; now we know which pocket the next tool is sitting in
 ; we need to know if we need to put a tool away
