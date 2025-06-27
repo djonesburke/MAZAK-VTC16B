@@ -10,7 +10,7 @@ G4 P0.25  ; Dwell for 0.5 seconds to ensure spindle has stopped
 
 ; SAFETY CHECK: Verify tool is clamped before orientation
 M66 P5 L0 ; Read tool clamp status
-(debug, Initial clamp status reading: #5399)
+(DEBUG, Initial clamp status reading: #5399)
 
 o110 if [#5399 EQ 0]
     (msg, Tool not clamped. Activating clamp routine.)
@@ -24,7 +24,7 @@ o110 if [#5399 EQ 0]
     
     ; Re-check clamp status after attempting to clamp
     M66 P5 L0
-    (debug, Clamp status after clamptool: #5399)
+    (DEBUG, Clamp status after clamptool: #5399)
     
     ; Verify clamp was successful
     o115 if [#5399 EQ 0]
@@ -33,7 +33,7 @@ o110 if [#5399 EQ 0]
         o<orientspindle> return [0]
     o115 endif
     
-    (debug, Tool clamp successful)
+    (DEBUG, Tool clamp successful)
 o110 endif
 
 ; ----- SECONDARY VERIFICATION -----
@@ -41,7 +41,7 @@ o110 endif
 M66 P5 L0
 o120 if [#5399 EQ 0]
     (msg, ERROR: Tool is still not clamped. Cannot orient spindle safely.)
-    (debug, Secondary clamp check failed - aborting)
+    (DEBUG, Secondary clamp check failed - aborting)
     o<orientspindle> return [0]
 o120 endif
 
@@ -53,7 +53,7 @@ M19 R0 ; Orient spindle to 0 degrees
 M66 P6 L3 Q3 ; Wait up to 3 seconds for spindle orientation
 o130 if [#5399 EQ 0]
     (msg, ERROR: Spindle orientation failed)
-    (debug, Spindle orientation timeout)
+    (DEBUG, Spindle orientation timeout)
     o<orientspindle> return [0]
 o130 endif
 

@@ -6,7 +6,7 @@
 ; This is called form the ATC and tool pages
 
 o<unload_spindle> sub
-(PRINT, o<load_spindle_safety>)
+(DEBUG, o<load_spindle_safety>)
 
 M61 Q0
 G49

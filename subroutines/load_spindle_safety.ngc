@@ -10,7 +10,7 @@
 ; #<number_of_pockets>: The number of pockets the ATC platter has, This is user set in the INI file via #<_ini[atc]pockets>
 
 o<load_spindle_safety> sub
-(PRINT, o<load_spindle_safety>)
+(DEBUG, o<load_spindle_safety>)
 
 #<load_spindle_tool_number> = #1 ; this is the value form the ATC tab
 #<probe_tool_number> = #3014

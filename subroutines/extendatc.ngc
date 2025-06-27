@@ -43,7 +43,7 @@ o140 if [#5399 LT 0]
     (abort, ATC not in position)
 o140 endif
 
-(PRINT, o<extendatc> - ATC extended successfully)
+(DEBUG, o<extendatc> - ATC extended successfully)
 o<extendatc> endsub [1]
 
 M2
