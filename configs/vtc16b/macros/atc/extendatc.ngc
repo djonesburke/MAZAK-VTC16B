@@ -4,7 +4,6 @@ o<extendatc> sub
 ; #<atc_z_tool_clearance_height> is the clearance height your spindle needs to be at to safely clear the ATC (Set via INI [ATC]Z_TOOL_CLEARANCE_HEIGHT)
 ; #<atc_x_tool_clearance_pos> is the X clearance position to safely extend/retract the ATC (Set via INI [ATC]X_TOOL_CLEARANCE_POS)
 ; #<atc_y_tool_clearance_pos> is the Y clearance position to safely extend/retract the ATC (Set via INI [ATC]Y_TOOL_CLEARANCE_POS)
-(PRINT, o<extendatc> - Extending ATC)
 
 ; Load Z parameters from INI
 ;#<atc_z_tool_change_height> = -3.9000
@@ -43,7 +42,6 @@ o140 if [#5399 LT 0]
     (abort, ATC not in position)
 o140 endif
 
-(PRINT, o<extendatc> - ATC extended successfully)
 o<extendatc> endsub [1]
 
 M2

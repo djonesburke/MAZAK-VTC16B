@@ -17,12 +17,8 @@ o<toolchange> sub
 ; #<atc_x_tool_clearance_pos> The X position in machine coordinates for safe carousel rotation
 ; #<atc_y_tool_clearance_pos> The Y position in machine coordinates for safe carousel rotation
 
-(PRINT, o<toolchange> selected_tool: #<selected_tool>, tool_in_spindle: #<tool_in_spindle>)
-(PRINT, selected_pocket: #<selected_pocket>, current_pocket: #<current_pocket>, task: #<_task>)
-(PRINT, Current pocket param #3990: #3990)
-
 o100 if [#<_task> EQ 0]
-    (DEBUG, Task is null)
+    (PRINT, ERROR: Task is null - cannot proceed with tool change)
     o<toolchange> return [999]
 o100 endif ; this code eliminates tool missing error on load for multiple use tools
 
@@ -34,10 +30,9 @@ o110 endif
 
 ; Add validation for #3990 to ensure it's within valid range
 o105 if [#3990 LT 1 OR #3990 GT #<number_of_pockets>]
-    (debug, WARNING: Current pocket parameter invalid, resetting to 1)
+    (PRINT, WARNING: Current pocket parameter invalid, resetting to 1)
     #3990 = 1 ; Reset to first pocket if invalid
 o105 endif
-(debug, Starting toolchange with carousel at pocket #3990)
 
 ; Load Z parameters from INI
 #<atc_z_tool_change_height> = -3.9000
@@ -79,17 +74,13 @@ o170 endif
 ; table or via a tooldata database - see Linuxcnc docs for more information
 
 o180 if [#<selected_tool> EQ #<tool_in_spindle>] ; checks if tool in the spindle is same as requested
-    (PRINT, Requested tool already in spindle)
-    (PRINT, o<toolchange> endsub)
     o<toolchange> endsub [1]
     M2
 o180 endif
 
 o190 if [#3991 NE #<tool_in_spindle>]
-    (PRINT, o<toolchange> tool_in_spindle does not match 3991)
-    ; Fix the inconsistency
+    ; Fix the inconsistency silently
     #3991 = #<tool_in_spindle>
-    (PRINT, Updated #3991 to match tool_in_spindle: #<tool_in_spindle>)
 o190 endif
 
 #<next_pocket> = 0 ; assigns 0 to the next pocket for a later check if the tool is found in the carousel
@@ -117,12 +108,11 @@ G0 G53 X#<atc_x_tool_clearance_pos> Y#<atc_y_tool_clearance_pos>
 
 ; Centralized spindle orientation for entire tool change process
 ; This avoids redundant orientation calls in M21 and M22
-(debug, Orienting spindle for tool change operations)
 M5 ; Ensure spindle is stopped
 G4 P1.0 ; Dwell for spindle to stop completely
 o<orientspindle> call
 o215 if [#5399 EQ 0]
-    (debug, WARNING: Spindle orientation failed)
+    (PRINT, ERROR: Spindle orientation failed)
     (abort, Failed to orient spindle - cannot proceed with tool change)
 o215 endif
 
@@ -135,25 +125,17 @@ o220 if [#<tool_in_spindle> GT 0] ; checks if there is a valid tool in the spind
     o221 endif
     
     ; Position carousel to empty pocket - ABSOLUTE positioning
-    (debug, Moving carousel to pocket #<open_pocket> for tool storage)
     M10 P#<open_pocket> ; move carousel to an open pocket ABSOLUTE
-    ; #3990 = #<open_pocket> ; Update tracking BEFORE M21 call
-    (debug, Updated carousel position to #3990)
     
     ; Use M21 to store tool
-    (debug, Storing tool #<tool_in_spindle> in pocket #<open_pocket>)
     M21 ; puts the tool in spindle away into the open pocket
     M68 E0 Q#3990 ; Sync HAL component with current pocket
     G4 P0.1 ; Small dwell to ensure signal propagation
-    (debug, After M21: Syncing HAL carousel position to #3990)
     
     ; Update tool tracking data
     (DEBUG, EVAL[vcp.getWidget{"dynatc"}.store_tool{#<open_pocket>, #<tool_in_spindle>}])
     #140 = #<open_pocket>
     #[4000 + #140] = #<tool_in_spindle> ; save tool number in pocket
-    
-    ; Double-check position tracking after storing
-    (debug, Verifying carousel position after storage: #3990)
     
     #3991 = 0 ; empty tool in the spindle
     M61 Q0
@@ -166,55 +148,37 @@ o230 if [#<selected_tool> GT 0] ; selected tool is greater than tool0
     G0 G53 X#<atc_x_tool_clearance_pos> Y#<atc_y_tool_clearance_pos>
     
     ; Position carousel to tool pocket - ABSOLUTE positioning
-    (debug, Moving carousel to pocket #<next_pocket> for tool retrieval)
     M10 P#<next_pocket> ; set carousel to move to the right pocket ABSOLUTE
-    ; #3990 = #<next_pocket> ; Update tracking BEFORE M22 call
-    (debug, Updated carousel position to #3990)
     
     ; Use M22 to retrieve tool
-    (debug, Loading tool #<selected_tool> from pocket #<next_pocket>)
     M22 ; Move carousel out and pick up tool
     M68 E0 Q#3990 ; Sync HAL component with current pocket  
     G4 P0.1 ; Small dwell to ensure signal propagation
-    (debug, After M22: Syncing HAL carousel position to #3990)
     
     ; Update tool tracking data
     (DEBUG, EVAL[vcp.getWidget{"dynatc"}.store_tool{#<next_pocket>, 0}])
     #150 = #<next_pocket>
     #[4000 + #150] = 0 ; empty the pocket
     
-    ; Double-check position tracking after retrieval
-    (debug, Verifying carousel position after retrieval: #3990)
-    
     #3991 = #<selected_tool> ; Set persistent variable to remember tool in spindle after power cycle
     
     ; Move back to safe Z height
     G0 G53 Z#<atc_z_tool_clearance_height>
 o230 else
-    ; For tool 0 
-    (debug, Special handling for T0)
+    ; For tool 0 - empty spindle
     G0 G53 Z#<atc_z_tool_clearance_height>
     
-    ; No need to home the carousel for T0 - keep its current position
-    (debug, Keeping carousel at current position for T0)
-    
-    (debug, Retracting ATC carousel)
 o<retractatc> call
 o231 if [#5399 EQ 0]
-    (debug, WARNING: ATC retraction failed)
+    (PRINT, ERROR: ATC retraction failed)
     (abort, Failed to retract carousel - cannot continue safely)
 o231 endif
 
-(debug, Clamping tool)
 o<clamptool> call
 o232 if [#5399 LT 0]
-    (debug, WARNING: Tool clamp failed)
+    (PRINT, ERROR: Tool clamp failed)
     (abort, Failed to clamp tool - cannot continue safely)
 o232 endif
-    
-    ; For T0, do NOT reset carousel position - preserve current position
-    ; #3990 = 1 ; REMOVED - don't reset position for T0
-    (debug, Maintaining carousel at pocket #3990 for T0)
 o230 endif
 
 M61 Q#<selected_tool>
@@ -228,8 +192,6 @@ M68 E0 Q#3990 ; Set the analog output connected to the carousel component
 
 o<program_coolant> call
 
-(debug, Tool change complete. Carousel at pocket #3990)
-(PRINT, o<toolchange> endsub)
 o<toolchange> endsub [1]
 
 M2
