@@ -38,6 +38,9 @@ linuxcnc-nyx/build/
 # Config Runtime (generated files)
 configs/vtc16b/*.var.bak
 configs/vtc16b/sim.log
+configs/vtc16b/.vcp_persistent_data.pickle
+configs/vtc16b/qtdragon.var
+configs/vtc16b/*.log
 
 # User-specific files
 .user/
