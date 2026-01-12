@@ -1,3 +1,2 @@
-2026-01-12 10:53:11,989 - qtpyvcp.utilities.info - WARNING - No entry [TRAJ] MAX_VELOCITY found in INI, using 15ipm
-2026-01-12 10:53:11,990 - qtpyvcp.utilities.info - WARNING - No entry [TRAJ] MAX_VELOCITY found in INI, using 15ipm
-2026-01-12 10:53:12,202 - qtpyvcp.QtPyVCP.probe_basic.probe_basic - WARNING - User ATC buttons folder does not exist: user_atc_buttons/template_user_atc_buttons
+2026-01-12 10:55:47,375 - qtpyvcp.utilities.info - WARNING - No entry [TRAJ] MAX_VELOCITY found in INI, using 15ipm
+2026-01-12 10:55:47,375 - qtpyvcp.utilities.info - WARNING - No entry [TRAJ] MAX_VELOCITY found in INI, using 15ipm
