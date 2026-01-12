@@ -45,3 +45,9 @@ configs/vtc16b/*.log
 # User-specific files
 .user/
 .local/
+
+# Runtime files
+*.log
+*.pickle
+__pycache__/
+*.pyc
