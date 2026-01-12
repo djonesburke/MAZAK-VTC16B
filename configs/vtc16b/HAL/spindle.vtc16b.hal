@@ -29,6 +29,4 @@ net s-orient                           <= mdssp.0.orient-out
 net s-orient-orient   spindle.0.orient => mdssp.0.spindle-orient-in
 net s-orient-locked   spindle.0.locked => mdssp.0.spindle-locked-in
 
-newsig s-oriented bit
-
 #net spindle-oriented spindle.0.is-oriented => motion.digital-in-06

@@ -1,9 +1,15 @@
+# Load components
 loadrt time
 loadrt not
+loadrt scale names=spindle_load_scale,spindle_rpm_scale
 
+# Add functions to servo-thread
 addf time.0 servo-thread
 addf not.0 servo-thread
+addf spindle_load_scale servo-thread
+addf spindle_rpm_scale servo-thread
 
+# Timer for Probe Basic runtime
 net prog-running not.0.in <= halui.program.is-idle
 net prog-paused halui.program.is-paused => time.0.pause
 net cycle-timer time.0.start <= not.0.out
@@ -12,18 +18,24 @@ net cycle-minutes qtpyvcp.timerminutes.in <= time.0.minutes
 net cycle-hours qtpyvcp.timerhours.in <= time.0.hours
 # *** Time items required for Probe Basic to run ***
 
-#  ---manual tool change signals---
-net tool-change-request     =>  qtpyvcp_manualtoolchange.change
-net tool-change-confirmed   <=  qtpyvcp_manualtoolchange.changed
-net tool-number             =>  qtpyvcp_manualtoolchange.number
+# Manual tool change signals
+net tool-change-request => qtpyvcp_manualtoolchange.change
+net tool-change-confirmed <= qtpyvcp_manualtoolchange.changed
+net tool-number => qtpyvcp_manualtoolchange.number
 
-# *** Probe graphic simulation trigger push probe tip ***
-# net probe-in  =>  qtpyvcp.probe-in.out
-net probe-in  <=  qtpyvcp.probe-led.on
+# Probe graphic simulation trigger push probe tip
+# net probe-in => qtpyvcp.probe-in.out
+net probe-in <= qtpyvcp.probe-led.on
 
-# *** Set line below for actual spindle readout from your hal file ***
-loadrt scale names=spindle_rpm_scale
-addf spindle_rpm_scale servo-thread
+# Spindle RPM scaling
 setp spindle_rpm_scale.gain 60.0
 net s-vel-fb-rps => spindle_rpm_scale.in
 net spindle-rpm-filtered spindle_rpm_scale.out => qtpyvcp.spindle-encoder-rpm.in
+
+# Spindle load scaling for NYX torque feedback (servo #5)
+setp spindle_load_scale.gain 10
+setp spindle_load_scale.offset 0
+net spindle-torque nyx.0.servo-05.trq-fb => spindle_load_scale.in
+net spindle-load spindle_load_scale.out => qtpyvcp.spindle-load-indicator.in-f
+setp qtpyvcp.spindle-load-indicator.max-val 150
+setp qtpyvcp.spindle-load-indicator.min-val 0

@@ -89,7 +89,7 @@ alias pin nyx.0.yio-02.out-09 Y18-lube-unit
 alias pin nyx.0.yio-02.out-0a Y05
 #alias pin nyx.0.yio-02.out-0b Y02
 alias pin nyx.0.yio-02.out-0b Y02-mag1-fwd
-alias pin nyx.0.yio-02.out-0c Y0F-flood-coolant
+alias pin nyx.0.yio-02.out-0c Y0F
 alias pin nyx.0.yio-02.out-0d Y0C-machine-ready
 alias pin nyx.0.yio-02.out-0e Y09
 alias pin nyx.0.yio-02.out-0f Y08
@@ -103,7 +103,7 @@ alias pin nyx.0.yio-02.out-16 Y14-mag1-retract
 alias pin nyx.0.yio-02.out-17 Y11-tool-clamp
 alias pin nyx.0.yio-02.out-18 Y1E
 #alias pin nyx.0.yio-02.out-19 Y1C-atc-close-cover
-alias pin nyx.0.yio-02.out-1a Y19
+alias pin nyx.0.yio-02.out-1a Y19-flood-coolant
 alias pin nyx.0.yio-02.out-1b Y06
 #alias pin nyx.0.yio-02.out-1c Y03
 alias pin nyx.0.yio-02.out-1c Y03-mag1-rev

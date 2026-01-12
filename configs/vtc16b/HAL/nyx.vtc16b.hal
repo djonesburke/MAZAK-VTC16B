@@ -48,22 +48,16 @@ net estop => Y0C-machine-ready
 #    ||  M1331 && M1091 && !M1100
 net estop => Y2D-estop
 # flood coolant
-net flood-coolant iocontrol.0.coolant-flood => Y0F-flood-coolant
+net flood-coolant iocontrol.0.coolant-flood => Y19-flood-coolant
 # mist coolant Y06?
 # work air blast Y16
 # tool air blast Y29
 net mist-coolant iocontrol.0.coolant-mist => Y16-work-air-blast
 #
-# Create shared machine state signal
-net machine-state halui.machine.is-on
-
-# Connect lube to use the shared machine state
-net lube <= machine-state
+net lube <= halui.machine.is-on
 net lube => Y17-spindle-lube Y18-lube-unit Y23-cooling-fan
-#net lube <= halui.machine.is-on
-#net lube => Y17-spindle-lube Y18-lube-unit
-#net lube-level-ok iocontrol.0.lube_level <= X12n-way-lube-level
-
+#net lube => Y23-cooling-fan
+net lube-level-ok iocontrol.0.lube_level <= X12n-way-lube-level
 
 # main-trans-overheat		X2Cn-main-trans-overheat	1
 # main-air-pressure		X2E-main-air-pressure		1
