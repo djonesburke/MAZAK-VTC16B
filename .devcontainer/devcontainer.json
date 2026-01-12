@@ -1,0 +1,34 @@
+{
+  "name": "MAZAK-VTC16B LinuxCNC Config Dev",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {},
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "files.eol": "\n",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.rulers": [
+      100
+    ]
+  },
+  "extensions": [
+    "eamodio.gitlens",
+    "ms-vscode.remote-repositories",
+    "ms-azuretools.vscode-docker",
+    "streetsidesoftware.code-spell-checker",
+    "oderwat.indent-rainbow",
+    "Gruntfuggly.todo-tree",
+    "jebbs.plantuml",
+    "mechatroner.rainbow-csv",
+    "timonwong.shellcheck",
+    "christian-kohler.path-intellisense",
+    "bmalehorn.vscode-fish",
+    "ms-vscode.vscode-typescript-next"
+  ],
+  "postCreateCommand": "git submodule update --init --recursive || true",
+  "remoteUser": "vscode"
+}

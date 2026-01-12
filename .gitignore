@@ -1,0 +1,47 @@
+# OS and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Build and Dependencies
+*.o
+*.a
+*.so
+*.dylib
+*.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+dist/
+build/
+
+# LinuxCNC Runtime
+*.log
+*.tmp
+sim.log
+sim.pref
+.vcp_persistent_data.pickle
+
+# NYX Submodule (build artifacts, don't commit)
+linuxcnc-nyx/debian/
+linuxcnc-nyx/bin/
+linuxcnc-nyx/lib/
+linuxcnc-nyx/src/objects/
+linuxcnc-nyx/build/
+
+# Config Runtime (generated files)
+configs/vtc16b/*.var.bak
+configs/vtc16b/sim.log
+configs/vtc16b/.vcp_persistent_data.pickle
+configs/vtc16b/qtdragon.var
+configs/vtc16b/*.log
+
+# User-specific files
+.user/
+.local/

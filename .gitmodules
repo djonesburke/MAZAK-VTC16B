@@ -1,0 +1,4 @@
+[submodule "linuxcnc-nyx"]
+	path = linuxcnc-nyx
+	url = https://github.com/yur7aev/linuxcnc.git
+	branch = nyx2.9
