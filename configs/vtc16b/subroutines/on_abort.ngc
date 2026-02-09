@@ -1,9 +1,8 @@
-%
 o<on_abort> sub
 
-G90
-G40
-G49
+M5 (Spindle Stop)
+G90 (Absolute Positioning)
+G40 (Cancel Cutter Radius Compensation)
+G49 (Cancel Tool Length Offset)
 
 o<on_abort> endsub
-%
