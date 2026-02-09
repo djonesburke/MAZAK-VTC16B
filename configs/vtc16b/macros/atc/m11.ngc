@@ -22,6 +22,9 @@ o120 else
     #<steps_to_move> = 1
 o120 endif
 
+(tells the atc widget how many steps to move and start moving forward)
+(DEBUG, EVAL[vcp.getWidget{"dynatc"}.rotate{#<steps_to_move>, "cw"}])
+
 M65 P6 ; Brake off
 G4  P.05 ;dwell
 M64 P4 ; Move atc motor FWD
@@ -47,6 +50,8 @@ M65 P6 ;brake off
 M65 P4 ; Stop motor
 
 #<_my_current_pocket> = #3990
+
+(debug, CAROUSEL TRACKING - Current Position: #3990)
 
 o<m11> endsub [1]
 
