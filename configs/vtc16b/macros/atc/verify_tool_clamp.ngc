@@ -5,10 +5,10 @@ o<verify_tool_clamp> sub
 ; P2 = motion.digital-in-02 (X11-tool-unclamped) - HIGH when unclamped
 ; Returns: [1] on success, aborts on double failure
 
-(debug, Verifying tool clamp status)
+;(debug, Verifying tool clamp status)
 
 ; First clamp attempt
-(debug, Clamp attempt 1)
+;(debug, Clamp attempt 1)
 o<clamptool> call
 
 ; Wait briefly for mechanical action
@@ -17,22 +17,22 @@ G4 P0.1
 ; Check clamp sensor - wait up to 1 second for rising edge
 M66 P5 L3 Q1
 o100 if [#5399 EQ 1]
-    (debug, Tool clamped successfully)
+    ;(debug, Tool clamped successfully)
     o<verify_tool_clamp> return [1]
 o100 endif
 
 ; First attempt failed - enter retry logic
-(debug, Clamp attempt 1 failed, initiating retry sequence)
+;(debug, Clamp attempt 1 failed, initiating retry sequence)
 
 ; Unclamp to vent pressure
-(debug, Unclamping to vent pressure)
+;(debug, Unclamping to vent pressure)
 o<unclamptool> call
 
 ; Wait for vent
 G4 P0.3
 
 ; Second clamp attempt
-(debug, Clamp attempt 2)
+;(debug, Clamp attempt 2)
 o<clamptool> call
 
 ; Wait briefly for mechanical action
@@ -41,12 +41,12 @@ G4 P0.1
 ; Check clamp sensor again - wait up to 1 second for rising edge
 M66 P5 L3 Q1
 o110 if [#5399 EQ 1]
-    (debug, Tool clamped successfully on retry)
+    ;(debug, Tool clamped successfully on retry)
     o<verify_tool_clamp> return [1]
 o110 endif
 
 ; Both attempts failed - abort
-(debug, ERROR: Tool clamp verification failed twice - aborting)
+;(debug, ERROR: Tool clamp verification failed twice - aborting)
 (abort, Tool clamp failed - cannot proceed safely with tool change)
 
 o<verify_tool_clamp> endsub

@@ -2,14 +2,14 @@ o<orientspindle> sub
 
 ; Stop spindle and orient to 0°
 M5
-G4 P0.25 ; Dwell for spindle to stop completely
+G4 P0.1 ; Dwell for spindle to stop completely
 
 ; SAFETY CHECK: Verify tool is clamped before orientation
 ; Mechanical crash will occur if drawbar is unclamped during spindle rotation
 M66 P5 L3 Q0.5 ; Check clamp sensor (P5 = X10-tool-clamped)
 o95 if [#5399 EQ 0]
     (msg, ERROR: Tool is not clamped. Cannot orient spindle safely.)
-    (debug, SAFETY ABORT: Spindle orientation requires clamped tool)
+    ;(debug, SAFETY ABORT: Spindle orientation requires clamped tool)
     o<orientspindle> return [0]
 o95 endif
 

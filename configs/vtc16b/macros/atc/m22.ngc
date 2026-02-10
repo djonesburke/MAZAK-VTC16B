@@ -4,7 +4,7 @@ o<m22> sub
 ; after loading any tool in the current pocket to the spindle
 ; #<atc_z_tool_change_height> is the height you spindle needs to be at to clamp/unclamp a tool form the ATC (Set via INI [ATC]Z_TOOL_CHANGE_HEIGHT)
 ; #<atc_z_tool_clearance_height> is the clearance height you spindle needs to be at to safely clear the ATC (Set via INI [ATC]Z_TOOL_CLEARANCE_HEIGHT)
-(PRINT, o<m22>)
+;(PRINT, o<m22>)
 
 #<atc_z_tool_change_height> = -3.9000
 o100 if [EXISTS[#<_ini[atc]z_tool_change_height>]]
@@ -15,62 +15,59 @@ o110 if [EXISTS[#<_ini[atc]z_tool_clearance_height>]]
     #<atc_z_tool_clearance_height> = #<_ini[atc]z_tool_clearance_height>
 o110 endif
 
-; Stop spindle
-M5
-
 ; Check drawbar clamp state to determine if orient is needed
 ; If clamped (T0 case): orient before unclamp
 ; If unclamped (normal swap from m21): skip orient, drawbar already unclamped
-(debug, Checking drawbar clamp state)
+;(debug, Checking drawbar clamp state)
 M66 P5 L3 Q0.1 ; Check if drawbar is clamped (P5 = X10-tool-clamped)
 o112 if [#5399 EQ 1]
     ; Drawbar is clamped - must orient before unclamping (T0 startup case)
-    (debug, Drawbar is clamped, orienting spindle before unclamp)
+    ;(debug, Drawbar is clamped, orienting spindle before unclamp)
     o<orientspindle> call
     o113 if [#5399 EQ 0]
-        (debug, WARNING: Spindle orientation failed)
+        ;(debug, WARNING: Spindle orientation failed)
         (abort, Failed to orient spindle - cannot proceed with tool pickup)
     o113 endif
 o112 endif
 
 ; Unclamp drawbar to prepare for tool pickup
 ; Required whether coming from m21 (normal tool swap) or directly from T0 (initial load)
-(debug, Unclamping drawbar to prepare for new tool)
+;(debug, Unclamping drawbar to prepare for new tool)
 o<unclamptool> call
 o115 if [#5399 LT 0]
-    (debug, WARNING: Tool unclamp failed)
+    ;(debug, WARNING: Tool unclamp failed)
     (abort, Failed to unclamp drawbar - cannot proceed with tool pickup)
 o115 endif
 
 ; Call the extendatc subroutine to extend carousel
-(debug, Extending ATC carousel)
+;(debug, Extending ATC carousel)
 o<extendatc> call
 o118 if [#5399 EQ 0]
-    (debug, WARNING: ATC extension failed)
+    ;(debug, WARNING: ATC extension failed)
     (abort, Failed to extend ATC carousel - cannot proceed with tool pickup)
 o118 endif
 
 G0 G53 Z#<atc_z_tool_change_height> ; rapid move to above the tool change height
 
 ; Call verify_tool_clamp subroutine to clamp and verify with sensor feedback
-(debug, Clamping and verifying tool with sensor feedback)
+;(debug, Clamping and verifying tool with sensor feedback)
 o<verify_tool_clamp> call
 o120 if [#5399 NE 1]
-    (debug, WARNING: Tool clamp verification failed)
+    ;(debug, WARNING: Tool clamp verification failed)
     (abort, Failed to clamp tool - cannot continue safely)
 o120 endif
 
 ; Call retractatc subroutine to retract carousel
-(debug, Retracting ATC carousel)
+;(debug, Retracting ATC carousel)
 o<retractatc> call
 o130 if [#5399 EQ 0]
-    (debug, WARNING: ATC retraction failed)
+    ;(debug, WARNING: ATC retraction failed)
     (abort, Failed to retract carousel - cannot continue safely)
 o130 endif
 
-(debug, CAROUSEL TRACKING - After operation, position: #3990)
+;(debug, CAROUSEL TRACKING - After operation, position: #3990)
 
-(PRINT, o<m22> endsub)
+;(PRINT, o<m22> endsub)
 o<m22> endsub [1]
 
 M2

@@ -137,10 +137,6 @@ o220 if [#<tool_in_spindle> GT 0] ; checks if there is a valid tool in the spind
 o220 endif
 
 o230 if [#<selected_tool> GT 0] ; selected tool is greater than tool0
-    ; Move to clearance position before carousel movement
-    G0 G53 Z#<atc_z_tool_clearance_height>
-    G0 G53 X#<atc_x_tool_clearance_pos> Y#<atc_y_tool_clearance_pos>
-    
     ; Position carousel to tool pocket - ABSOLUTE positioning
     M10 P#<next_pocket> ; set carousel to move to the right pocket ABSOLUTE
     
