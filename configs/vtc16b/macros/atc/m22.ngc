@@ -48,6 +48,7 @@ o118 if [#5399 EQ 0]
 o118 endif
 
 G0 G53 Z#<atc_z_tool_change_height> ; rapid move to above the tool change height
+G4 P0.05 ; brief settle dwell for tool shank seating
 
 ; Clamp tool in spindle
 o<clamptool> call
