@@ -177,6 +177,9 @@ o240 if [1 EQ 1]
     G43 H#<selected_tool>
 o240 endif
 
+; Unlock spindle after tool change (release M19 orient lock)
+M5
+
 ; Ensure HAL carousel component is synced with #3990
 M68 E0 Q#3990 ; Set the analog output connected to the carousel component
 
