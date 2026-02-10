@@ -36,6 +36,7 @@ linuxcnc-nyx/src/objects/
 linuxcnc-nyx/build/
 
 # Config Runtime (generated files)
+configs/vtc16b/*.var
 configs/vtc16b/*.var.bak
 configs/vtc16b/sim.log
 configs/vtc16b/.vcp_persistent_data.pickle
